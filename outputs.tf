@@ -7,7 +7,7 @@ output "provisioner_id" {
 }
 
 output "s3_provisioner_policy_arn" {
-  value = aws_iam_policy.s3_provisioner.arn
+  value = join("", aws_iam_policy.s3_provisioner.*.arn)
 }
 
 output "provisioner_policy_arn" {

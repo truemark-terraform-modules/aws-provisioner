@@ -9,6 +9,7 @@ variable "s3_bucket" {
 
 variable "s3_prefix" {
   description = "The path prefix inside the terraform S3 bucket to grant access."
+  default = null
 }
 
 variable "policy" {
