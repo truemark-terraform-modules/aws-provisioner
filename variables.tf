@@ -8,13 +8,18 @@ variable "s3_bucket" {
 }
 
 variable "s3_prefix" {
-  description = "The path prefix inside the terraform S3 bucket to grant access."
+  description = "Optional path prefix inside the terraform S3 bucket to grant access to."
   default = null
 }
 
 variable "policy" {
   description = "The policy to create and apply to the IAM user."
   default = null
+}
+
+variable "policies" {
+  description = "The policies to create and apply to the IAM user."
+  default = []
 }
 
 variable "policy_arns" {

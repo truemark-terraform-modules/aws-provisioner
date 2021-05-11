@@ -12,7 +12,7 @@ resource "aws_iam_user" "provisioner" {
 # This is needed to prevent different provisioner users from stepping on one another's changes. Additionally,
 # there is sensitive information stored in the state files in these S3 buckets which should be restricted.
 resource "aws_iam_policy" "s3_provisioner" {
-  count = var.s3_bucket == null || var.s3_prefix == null ? 0 : 1
+  count = var.s3_prefix == null ? 0 : 1
   name = "${var.name}-s3-terraform"
   path = var.path
   description = "Allows access to ${local.s3_bucket}/${var.s3_prefix}"
@@ -56,7 +56,7 @@ EOF
 }
 
 resource "aws_iam_user_policy_attachment" "s3_provisioner" {
-  count = var.s3_bucket == null || var.s3_prefix == null ? 0 : 1
+  count = var.s3_prefix == null ? 0 : 1
   policy_arn = aws_iam_policy.s3_provisioner[count.index].arn
   user = aws_iam_user.provisioner.name
 }
@@ -72,6 +72,20 @@ resource "aws_iam_policy" "provisioner" {
 resource "aws_iam_user_policy_attachment" "provisioner" {
   count = var.policy == null ? 0 : 1
   policy_arn = aws_iam_policy.provisioner[count.index].arn
+  user = aws_iam_user.provisioner.name
+}
+
+resource "aws_iam_policy" "provisioner_n" {
+  count = length(var.policies)
+  name = "${var.name}-${count.index}"
+  path = var.path
+  description = "Access policy for IAM user ${var.name}"
+  policy = var.policies[count.index]
+}
+
+resource "aws_iam_user_policy_attachment" "provisioner_n" {
+  count = length(var.policies)
+  policy_arn = aws_iam_policy.provisioner_n[count.index].arn
   user = aws_iam_user.provisioner.name
 }
 
