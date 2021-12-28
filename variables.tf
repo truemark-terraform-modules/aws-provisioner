@@ -1,16 +1,22 @@
 variable "name" {
-  description = "Name of the IAM user to create"
+  description = "Name of the IAM user/role to create"
   type = string
 }
 
+variable "description" {
+  description = "Set a description for the purpose of the IAM user role"
+  type = string
+  default = "User access role created by TrueMark terraform module terraform-aws-provisioner."
+}
+
 variable "create_user" {
-  description = "True to create an IAM user"
+  description = "Default is True to create an IAM user"
   type = bool
   default = true
 }
 
 variable "create_role" {
-  description = "True to create an IAM role"
+  description = "Default is False. Set to True to create an IAM role"
   type = bool
   default = false
 }

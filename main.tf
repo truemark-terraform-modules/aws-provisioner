@@ -23,6 +23,7 @@ data aws_iam_policy_document "assume_role_policy" {
 resource "aws_iam_role" "provisioner" {
   count = var.create_role ? 1 : 0
   name = var.name
+  description = var.description
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
@@ -51,7 +52,7 @@ data "aws_iam_policy_document" "s3_provisioner" {
   }
   statement {
     sid = "AllowWorkspacePath"
-    effect = "Allow",
+    effect = "Allow"
     actions = ["s3:GetObject", "s3:PutObject", "s3:ListObjects"]
     resources = ["arn:aws:s3:::${local.s3_bucket}/env:/*/${var.s3_prefix}/*"]
   }
@@ -84,10 +85,10 @@ resource "aws_iam_role_policy_attachment" "s3_provisioner" {
 }
 
 resource "aws_iam_policy" "provisioner" {
-  count = var.policy != null ? 0 : 1
+  count = var.policy != null ? 1 : 0
   name = var.name
   path = var.path
-  description = "Access policy for IAM user ${var.name}"
+  description = "Access policy for IAM user ${var.name}. Created and attached by TrueMark terraform module terraform-aws-provisioner."
   policy = var.policy
 }
 
@@ -98,7 +99,7 @@ resource "aws_iam_user_policy_attachment" "provisioner" {
 }
 
 resource "aws_iam_role_policy_attachment" "provisioner" {
-  count = var.policy == null && var.create_role ? 1 : 0
+  count = var.policy != null && var.create_role ? 1 : 0
   policy_arn = aws_iam_policy.provisioner[count.index].arn
   role = aws_iam_role.provisioner[count.index].name
 }
