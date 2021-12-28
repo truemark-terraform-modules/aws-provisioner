@@ -1,9 +1,9 @@
 output "provisioner_arn" {
-  value = aws_iam_user.provisioner.arn
+  value = join("", aws_iam_user.provisioner.*.arn)
 }
 
 output "provisioner_id" {
-  value = aws_iam_user.provisioner.id
+  value = join("", aws_iam_user.provisioner.*.id)
 }
 
 output "s3_provisioner_policy_arn" {
