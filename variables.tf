@@ -12,13 +12,13 @@ variable "description" {
 variable "create_user" {
   description = "Default is True to create an IAM user"
   type = bool
-  default = true
+  default = false
 }
 
 variable "create_role" {
   description = "Default is False. Set to True to create an IAM role"
   type = bool
-  default = false
+  default = true
 }
 
 variable "s3_bucket" {
