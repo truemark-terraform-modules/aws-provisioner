@@ -52,6 +52,6 @@ variable "policy_arns" {
 }
 
 variable "path" {
-  default = "/terraform/security/"
+  default = "/"
   type = string
 }
