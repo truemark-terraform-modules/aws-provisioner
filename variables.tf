@@ -55,3 +55,8 @@ variable "path" {
   default = "/"
   type = string
 }
+
+variable "trusted_account" {
+  default = null
+  type = string
+}

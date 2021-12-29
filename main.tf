@@ -2,6 +2,7 @@ data "aws_caller_identity" "current" {}
 
 locals {
   s3_bucket = var.s3_bucket == null ? "${data.aws_caller_identity.current.account_id}-terraform" : var.s3_bucket
+  trusted_account = var.trusted_account == null ? data.aws_caller_identity.current.account_id : var.trusted_account
 }
 
 resource "aws_iam_user" "provisioner" {
@@ -14,7 +15,7 @@ data aws_iam_policy_document "assume_role_policy" {
     effect = "Allow"
     actions = ["sts:AssumeRole"]
     principals {
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+      identifiers = ["arn:aws:iam::${local.trusted_account}:root"]
       type        = "AWS"
     }
   }
