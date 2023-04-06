@@ -26,6 +26,7 @@ resource "aws_iam_role" "provisioner" {
   name = var.name
   description = var.description
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+  max_session_duration = var.max_session_duration
 }
 
 # This policy grants the provisioner user access to specific paths in the S3 bucket holding terraform state.
