@@ -60,3 +60,8 @@ variable "trusted_account" {
   default = null
   type = string
 }
+
+variable "max_session_duration" {
+  default = "7200"
+  description = "The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of two hour is applied. This setting can have a value from 1 hour to 12 hours."
+}
